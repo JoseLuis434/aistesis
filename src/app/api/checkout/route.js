@@ -5,7 +5,7 @@ import path from 'path';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { id, items, total } = body;
+    const { id, items } = body;
 
     const idsPath = path.join(process.cwd(), 'ids.json');
     const pedidosPath = path.join(process.cwd(), 'pedidos.json');
@@ -13,48 +13,44 @@ export async function POST(request) {
     // 1. VALIDACIÓN DE ID
     const idsData = fs.readFileSync(idsPath, 'utf8');
     const allowedIds = JSON.parse(idsData);
-    const idLimpio = id.trim().toUpperCase();
+    const idLimpio = id?.trim().toUpperCase();
 
-    if (!allowedIds.includes(idLimpio)) {
+    if (!idLimpio || !allowedIds.includes(idLimpio)) {
       return NextResponse.json({ success: false, message: 'ID no válido' }, { status: 401 });
     }
 
-    // 2. INICIALIZACIÓN DE LA VARIABLE CON PROTECCIÓN
-    let pedidos = [];
+    // 2. FILTRADO DE DATOS (Mapeo a solo lo necesario)
+    const articulosSimplificados = items.map(item => ({
+      nombre: item.name,
+      tamano: item.selectedSize,
+      color: item.selectedColor
+    }));
 
-    if (fs.existsSync(pedidosPath)) {
-      try {
-        const pedidosData = fs.readFileSync(pedidosPath, 'utf8');
-        // Solo intentamos parsear si el archivo no está vacío
-        if (pedidosData.trim()) {
-          pedidos = JSON.parse(pedidosData);
-        }
-      } catch (parseError) {
-        console.error("Aviso: pedidos.json estaba vacío o corrupto, reiniciando arreglo.");
-        pedidos = []; // Si hay error, empezamos de cero para no romper el flujo
-      }
-    }
-
-    // 3. REGISTRO DEL NUEVO PEDIDO
+    // 3. ESTRUCTURA MINIMALISTA
     const nuevoPedido = {
       idUsuario: idLimpio,
-      fecha: new Date().toLocaleString("es-MX", { timeZone: "America/Mexico_City" }),
-      articulos: items,
-      total: total
+      articulos: articulosSimplificados
     };
+
+    // 4. GUARDADO EN EL ARCHIVO
+    let pedidos = [];
+    if (fs.existsSync(pedidosPath)) {
+      try {
+        const contenido = fs.readFileSync(pedidosPath, 'utf8');
+        pedidos = contenido ? JSON.parse(contenido) : [];
+      } catch (e) { pedidos = []; }
+    }
 
     pedidos.push(nuevoPedido);
     fs.writeFileSync(pedidosPath, JSON.stringify(pedidos, null, 2));
 
-    // 4. RESPUESTA EXITOSA (Con success: true para el frontend)
     return NextResponse.json({ 
-      success: true, // <--- Crucial para que page.js muestre el éxito
-      message: '¡Pedido realizado con éxito!',
-      pedidoId: pedidos.length 
+      success: true, 
+      message: 'Pedido simplificado guardado' 
     }, { status: 200 });
 
   } catch (error) {
-    console.error("Error crítico:", error);
-    return NextResponse.json({ success: false, message: 'Error interno' }, { status: 500 });
+    console.error("Error:", error);
+    return NextResponse.json({ success: false }, { status: 500 });
   }
 }
