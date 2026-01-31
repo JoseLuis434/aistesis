@@ -5,17 +5,17 @@ import { X, Box, Palette, ShoppingCart, Trash2, Ruler, Search, CheckCircle2, Ale
 import { motion, AnimatePresence } from 'framer-motion';
 
 // CONFIGURACIONES DE PRECIOS
-const PRECIOS_ESTANDAR = { S: 35, M: 40, L: 50 };
-const PRECIOS_PROSERPINA = { S: 70, M: 90, L: 120 };
-const PRECIOS_THEMIS = { S: 40, M: 50, L: 60 };
-const PRECIOS_ATLAS = { S: 50, M: 60, L: 70 };
+const PRECIOS_ESTANDAR = { S: 40, M: 50, L: 70 };
+const PRECIOS_PROSERPINA = { S: 80, M: 100, L: 120 };
+const PRECIOS_THEMIS = { S: 50, M: 60, L: 70 };
+const PRECIOS_ATLAS = { S: 60, M: 80, L: 100 };
 
 // MODELOS CON DESCRIPCIONES CREATIVAS
 const MOCK_MODELS = [
   { id: "Aristóteles", name: "Aristóteles", category: "Bustos", image: "/images/Aristoteles.png", description: "Lógica y ética estagirita en resina, listo para cuestionar tu escritorio.", prices: PRECIOS_ESTANDAR },
   { id: "Atenea", name: "Atenea", category: "Bustos", image: "/images/atenea_B.png", description: "Sabiduría y estrategia bélica capturadas en una mirada de marfil plástico.", prices: PRECIOS_ESTANDAR },
-  { id: "Atenea de Giustiniani", name: "Atenea de Giustiniani", category: "Esculturas", image: "/images/Atenea_S.png", description: "La majestad de la diosa con su casco y túnica de guerra eterna.", prices: PRECIOS_ESTANDAR },
-  { id: "Discóbolo de Mirón", name: "Discóbolo de Mirón", category: "Esculturas", image: "/images/Discobolo.png", description: "Tensión muscular y equilibrio griego congelados en pleno movimiento.", prices: PRECIOS_ESTANDAR },
+  { id: "Atenea de Giustiniani", name: "Atenea de Giustiniani", category: "Esculturas", image: "/images/Atenea_S.png", description: "La majestad de la diosa con su casco y túnica de guerra eterna.", prices: PRECIOS_THEMIS },
+  { id: "Discóbolo de Mirón", name: "Discóbolo de Mirón", category: "Esculturas", image: "/images/Discobolo.png", description: "Tensión muscular y equilibrio griego congelados en pleno movimiento.", prices: PRECIOS_THEMIS },
   { id: "Edgar Allan Poe", name: "Edgar Allan Poe", category: "Bustos", image: "/images/poe.png", description: "Misterio gótico para vigilar tu biblioteca personal desde la sombra.", prices: PRECIOS_ESTANDAR },
   { id: "El Rapto de Proserpina", name: "El Rapto de Proserpina", category: "Esculturas", image: "/images/proserpina.png", description: "Compleja escena de Plutón y Proserpina: drama barroco en cada capa.", prices: PRECIOS_PROSERPINA },
   { id: "Eros y Psique", name: "Eros y Psique", category: "Esculturas", image: "/images/eros.png", description: "El abrazo mitológico que simboliza la unión eterna del amor y el alma.", prices: PRECIOS_PROSERPINA },
@@ -23,17 +23,17 @@ const MOCK_MODELS = [
   { id: "Homero", name: "Homero", category: "Bustos", image: "/images/homero.png", description: "El eco de la épica griega convertido en una pieza de colección inmortal.", prices: PRECIOS_ESTANDAR },
   { id: "HP Lovecraft", name: "HP Lovecraft", category: "Bustos", image: "/images/lovecraft.png", description: "Horror cósmico hecho materia, antes de que despierte el gran Cthulhu.", prices: PRECIOS_ESTANDAR },
   { id: "Marco Aurelio", name: "Marco Aurelio", category: "Bustos", image: "/images/aurelio.png", description: "Serenidad estoica para resistir el caos del día a día con virtud.", prices: PRECIOS_ESTANDAR },
-  { id: "Perseo y Medusa", name: "Perseo y Medusa", category: "Esculturas", image: "/images/perseo.png", description: "Victoria del héroe sobre el mito, con detalles de alta precisión técnica.", prices: PRECIOS_ESTANDAR },
+  { id: "Perseo y Medusa", name: "Perseo y Medusa", category: "Esculturas", image: "/images/perseo.png", description: "Victoria del héroe sobre el mito, con detalles de alta precisión técnica.", prices: PRECIOS_THEMIS },
   { id: "Platón", name: "Platón", category: "Bustos", image: "/images/platon.png", description: "La idea perfecta del filósofo, ahora fuera de la caverna y en tu repisa.", prices: PRECIOS_ESTANDAR },
-  { id: "Santo Tomas de Aquino", name: "Santo Tomas de Aquino", category: "Esculturas", image: "/images/aquino.png", description: "Síntesis de fe y razón con su icónica Summa en cada detalle.", prices: PRECIOS_ESTANDAR },
+  { id: "Santo Tomas de Aquino", name: "Santo Tomas de Aquino", category: "Esculturas", image: "/images/aquino.png", description: "Síntesis de fe y razón con su icónica Summa en cada detalle.", prices: PRECIOS_THEMIS },
   { id: "Sócrates", name: "Sócrates", category: "Bustos", image: "/images/socrates.png", description: "Padre de la duda, listo para iniciar un diálogo socrático en tu oficina.", prices: PRECIOS_ESTANDAR },
   { id: "Sólidos Platónicos", name: "Sólidos Platónicos", category: "Esculturas", image: "/images/solidos.png", description: "La geometría sagrada que sostiene el universo en la palma de tu mano.", prices: PRECIOS_ESTANDAR },
   { id: "Themis", name: "Themis", category: "Esculturas", image: "/images/Themis.png", description: "El equilibrio de la justicia divina, perfecta para el estudio jurídico.", prices: PRECIOS_THEMIS },
   { id: "Tolstói", name: "Tolstói", category: "Bustos", image: "/images/tolstoi.png", description: "La fuerza de la literatura rusa en un busto cargado de realismo histórico.", prices: PRECIOS_ESTANDAR },
-  { id: "Venus de Milo", name: "Venus de Milo", category: "Esculturas", image: "/images/venus.png", description: "La belleza clásica incompleta, ahora inmortalizada en tu color favorito.", prices: PRECIOS_ESTANDAR },
-  { id: "Zeus de Artemisión", name: "Zeus de Artemisión", category: "Esculturas", image: "/images/zeus.png", description: "El poder del rayo y la anatomía divina en su máxima escala técnica.", prices: PRECIOS_ESTANDAR },
-  { id: "El Pensador de Rodin", name: "El Pensador de Rodin", category: "Esculturas", image: "/images/pensador.png", description: "Introspección profunda hecha forma, ideal para momentos de reflexión.", prices: PRECIOS_ESTANDAR },
-  { id: "Apolo de Belvdedere", name: "Apolo de Belvdedere", category: "Esculturas", image: "/images/apolo.png", description: "El ideal de la belleza masculina solar y la armonía clásica griega.", prices: PRECIOS_ESTANDAR },
+  { id: "Venus de Milo", name: "Venus de Milo", category: "Esculturas", image: "/images/venus.png", description: "La belleza clásica incompleta, ahora inmortalizada en tu color favorito.", prices: PRECIOS_THEMIS },
+  { id: "Zeus de Artemisión", name: "Zeus de Artemisión", category: "Esculturas", image: "/images/zeus.png", description: "El poder del rayo y la anatomía divina en su máxima escala técnica.", prices: PRECIOS_THEMIS },
+  { id: "El Pensador de Rodin", name: "El Pensador de Rodin", category: "Esculturas", image: "/images/pensador.png", description: "Introspección profunda hecha forma, ideal para momentos de reflexión.", prices: PRECIOS_THEMIS },
+  { id: "Apolo de Belvdedere", name: "Apolo de Belvdedere", category: "Esculturas", image: "/images/apolo.png", description: "El ideal de la belleza masculina solar y la armonía clásica griega.", prices: PRECIOS_THEMIS },
   { id: "Galileo Galilei", name: "Galileo Galilei", category: "Bustos", image: "/images/galileo.png", description: "El hombre que movió la Tierra, observando el cosmos desde tu mesa.", prices: PRECIOS_ESTANDAR },
   { id: "Virginia Woolf", name: "Virginia Woolf", category: "Bustos", image: "/images/woolf.png", description: "Un tributo a la sensibilidad moderna y el flujo de la conciencia literaria.", prices: PRECIOS_ESTANDAR },
   { id: "Apolo y Dafne", name: "Apolo y Dafne", category: "Esculturas", image: "/images/dafne.png", description: "El instante eterno de la ninfa convirtiéndose en laurel bajo el sol.", prices: PRECIOS_PROSERPINA },
@@ -54,13 +54,27 @@ const MOCK_MODELS = [
   { id: "Charles Darwin", name: "Charles Darwin", category: "Bustos", image: "/images/darwin.png", description: "La evolución de las especies sintetizada en un retrato de precisión científica.", prices: PRECIOS_ESTANDAR },
   { id: "Niké", name: "Niké", category: "Esculturas", image: "/images/nike.png", description: "La victoria alada que parece lista para despegar desde tu estante.", prices: PRECIOS_ESTANDAR },
   { id: "Icaro", name: "Icaro", category: "Esculturas", image: "/images/icaro.png", description: "El sueño de volar y la advertencia del sol en un modelo minimalista.", prices: PRECIOS_ATLAS },
-  { id: "Augusto de Prima Porta", name: "Augusto de Prima Porta", category: "Esculturas", image: "/images/augusto.png", description: "El poder del primer emperador romano en su pose más triunfal.", prices: PRECIOS_ESTANDAR },
-  { id: "David de Bernini", name: "David de Bernini", category: "Esculturas", image: "/images/david_bernini.png", description: "Tensión del guerrero en el instante exacto de lanzar la piedra definitiva.", prices: PRECIOS_ESTANDAR },
-  { id: "David de Miguel Angel", name: "David de Miguel Angel", category: "Esculturas", image: "/images/david_ma.png", description: "Perfección humana y el símbolo máximo del Renacimiento italiano.", prices: PRECIOS_ESTANDAR },
+  { id: "Augusto de Prima Porta", name: "Augusto de Prima Porta", category: "Esculturas", image: "/images/augusto.png", description: "El poder del primer emperador romano en su pose más triunfal.", prices: PRECIOS_THEMIS},
+  { id: "David de Bernini", name: "David de Bernini", category: "Esculturas", image: "/images/david_bernini.png", description: "Tensión del guerrero en el instante exacto de lanzar la piedra definitiva.", prices: PRECIOS_THEMIS },
+  { id: "David de Miguel Angel", name: "David de Miguel Angel", category: "Esculturas", image: "/images/david_ma.png", description: "Perfección humana y el símbolo máximo del Renacimiento italiano.", prices: PRECIOS_THEMIS },
   { id: "Eneas y Anquises", name: "Eneas y Anquises", category: "Esculturas", image: "/images/eneas.png", description: "Piedad filial y el origen mítico de Roma en una pieza conmovedora.", prices: PRECIOS_ATLAS },
   { id: "Dante Alighieri", name: "Dante Alighieri", category: "Bustos", image: "/images/dante.png", description: "La mirada del poeta que cruzó el Infierno por amor al arte y la verdad.", prices: PRECIOS_ESTANDAR },
-  { id: "Blaise Pascal", name: "Blaise Pascal", category: "Escultura", image: "/images/pascal.png", description: "El genio matemático y filosófico en una pose de profunda humildad.", prices: PRECIOS_ATLAS },
-  { id: "Caronte", name: "Caronte", category: "Escultura", image: "/images/caronte.png", description: "El barquero del inframundo, guiando las almas hacia tu colección privada.", prices: PRECIOS_ATLAS },
+  { id: "Blaise Pascal", name: "Blaise Pascal", category: "Escultura", image: "/images/pascal.png", description: "El genio matemático y filosófico en una pose de profunda humildad.", prices: PRECIOS_THEMIS },
+  { id: "Caronte", name: "Caronte", category: "Escultura", image: "/images/caronte.png", description: "El barquero del inframundo, guiando las almas hacia tu colección privada.", prices: PRECIOS_THEMIS },
+  { id: "La Fama montando a Pegaso", name: "La Fama montando a Pegaso", category: "Escultura", image: "/images/pegasus.png", description: "La gloria alada que parece lista para despegar desde tu estante.", prices: PRECIOS_PROSERPINA },
+  { id: "Perseo y el Minotauro", name: "Perseo y el Minotauro", category: "Escultura", image: "/images/perseo_minotauro.png", description: "La lucha entre el héroe y la bestia en una escultura de gran impacto visual.", prices: PRECIOS_PROSERPINA },
+  { id: "Odiseo escapando del Cíclope", name: "Odiseo escapando del Cíclope", category: "Escultura", image: "/images/odiseo_escape.png", description: "La huida del héroe de su destino en una escultura de gran impacto visual.", prices: PRECIOS_ATLAS },
+  { id: "Diana de Versalles", name: "Diana de Versalles", category: "Escultura", image: "/images/diana_versalles.png", description: "La diosa de la caza, con una mirada de eterna belleza.", prices: PRECIOS_ATLAS },
+  { id: "Diana", name: "Diana", category: "Bustos", image: "/images/diana_busto.png", description: "La diosa de la caza, con una mirada de eterna belleza.", prices: PRECIOS_ESTANDAR },
+  { id: "Artemisa", name: "Artemisa", category: "Bustos", image: "/images/artemis_busto.png", description: "La diosa de la caza, con una mirada de eterna belleza.", prices: PRECIOS_ESTANDAR },
+  { id: "Diana como cazadora", name: "Diana como cazadora", category: "Esculturas", image: "/images/diana_cazadora1.png", description: "La diosa de la caza, con una mirada de eterna belleza.", prices: PRECIOS_PROSERPINA },
+  { id: "Diana cazadora", name: "Diana cazadora", category: "Esculturas", image: "/images/diana_cazadora2.png", description: "La diosa de la caza, con una mirada de eterna belleza.", prices: PRECIOS_THEMIS },
+  { id: "Artemisa con una cierva", name: "Artemisa con una cierva", category: "Esculturas", image: "/images/artemisa_cierva.png", description: "La diosa de la caza, con una mirada de eterna belleza.", prices: PRECIOS_ATLAS },
+  { id: "Artemisa e Ifigenia", name: "Artemisa e Ifigenia", category: "Esculturas", image: "/images/artemisa_ifigenia.png", description: "La diosa de la caza y su hija en una escultura de gran impacto visual.", prices: PRECIOS_PROSERPINA },
+  { id: "Odiseo (Ulises)", name: "Odiseo (Ulises)", category: "Esculturas", image: "/images/odiseo_busto.png", description: "El héroe de la Odisea en una escultura de gran impacto visual.", prices: PRECIOS_ESTANDAR },
+  { id: "Odiseo de Venecia (Ulises)", name: "Odiseo de Venecia (Ulises)", category: "Esculturas", image: "/images/odiseo_venecia.png", description: "El héroe de la Odisea en una escultura de gran impacto visual.", prices: PRECIOS_THEMIS },
+  { id: "Cíclope", name: "Cíclope", category: "Esculturas", image: "/images/ciclope.png", description: "El gigante cíclope de la Odisea en una escultura de gran impacto visual.", prices: PRECIOS_ESTANDAR },
+  { id: "Máscara de Agamenón", name: "Máscara de Agamenón", category: "Bustos", image: "/images/agamenon1.png", description: "La máscara del rey Agamenón en una escultura de gran impacto visual.", prices: PRECIOS_ESTANDAR },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 const sizeConfigs = {
