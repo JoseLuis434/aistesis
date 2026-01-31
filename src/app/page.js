@@ -226,9 +226,9 @@ const handleFinalize = async () => {
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <span className="text-[10px] font-black uppercase flex items-center gap-2"><Palette size={12} /> Filamento</span>
+                    <span className="text-[10px] font-black uppercase flex items-center gap-2"><Palette size={12} /> Filamento (sin vista previa)</span>
                     <div className="grid grid-cols-3 gap-2">
-                      {['Blanco', 'Gris', 'Negro'].map(c => (
+                      {['Blanco', 'Mármol', 'Negro'].map(c => (
                         <button key={c} onClick={() => setConfig({ ...config, color: c })} className={`py-2 border-2 border-black text-[9px] font-black uppercase transition-all ${config.color === c ? 'bg-black text-white shadow-md scale-105' : 'opacity-40 hover:opacity-100 cursor-pointer'}`}>{c}</button>
                       ))}
                     </div>
