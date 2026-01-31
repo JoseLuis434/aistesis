@@ -1,74 +1,60 @@
-// app/api/checkout/route.js
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-// --- BASE DE DATOS DE IDS ALFANUMÉRICOS (5 CARACTERES) ---
-const DATABASE_IDS = ["FI206", "UN123", "AD001", "MX99X", "ST007"];
-
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { userId, items, total } = body;
+    const { id, items, total } = body;
 
-    // 1. VALIDACIÓN ESTRICTA DE FORMATO Y EXISTENCIA
-    // - Debe tener exactamente 5 caracteres
-    // - Debe ser alfanumérico (letras y números solamente)
-    // - Debe estar en nuestra lista blanca
-    const idLimpio = userId?.trim().toUpperCase();
-    const esAlfanumerico5 = /^[A-Z0-9]{5}$/.test(idLimpio);
+    const idsPath = path.join(process.cwd(), 'ids.json');
+    const pedidosPath = path.join(process.cwd(), 'pedidos.json');
 
-    if (!esAlfanumerico5 || !DATABASE_IDS.includes(idLimpio)) {
-      console.warn(`[ACCESO RECHAZADO]: ID inválido o no autorizado: ${idLimpio}`);
-      return NextResponse.json(
-        { success: false, message: 'ID no válido. Use 5 caracteres alfanuméricos.' },
-        { status: 401 }
-      );
+    // 1. VALIDACIÓN DE ID
+    const idsData = fs.readFileSync(idsPath, 'utf8');
+    const allowedIds = JSON.parse(idsData);
+    const idLimpio = id.trim().toUpperCase();
+
+    if (!allowedIds.includes(idLimpio)) {
+      return NextResponse.json({ success: false, message: 'ID no válido' }, { status: 401 });
     }
 
-    // 2. CONFIGURACIÓN DEL ARCHIVO DE PERSISTENCIA
-    const filePath = path.join(process.cwd(), 'pedidos.json');
-
-    // 3. LECTURA DE PEDIDOS PREVIOS
+    // 2. INICIALIZACIÓN DE LA VARIABLE CON PROTECCIÓN
     let pedidos = [];
-    if (fs.existsSync(filePath)) {
+
+    if (fs.existsSync(pedidosPath)) {
       try {
-        const fileData = fs.readFileSync(filePath, 'utf8');
-        pedidos = JSON.parse(fileData);
-      } catch (err) {
-        pedidos = [];
+        const pedidosData = fs.readFileSync(pedidosPath, 'utf8');
+        // Solo intentamos parsear si el archivo no está vacío
+        if (pedidosData.trim()) {
+          pedidos = JSON.parse(pedidosData);
+        }
+      } catch (parseError) {
+        console.error("Aviso: pedidos.json estaba vacío o corrupto, reiniciando arreglo.");
+        pedidos = []; // Si hay error, empezamos de cero para no romper el flujo
       }
     }
 
-    // 4. CREACIÓN DEL REGISTRO DEL PEDIDO
+    // 3. REGISTRO DEL NUEVO PEDIDO
     const nuevoPedido = {
-      id: `ORD${Date.now().toString().slice(-6)}`, // ID de orden corto
-      fecha: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
-      userId: idLimpio,
-      items: items.map(item => ({
-        nombre: item.name,
-        talla: item.selectedSize,
-        color: item.selectedColor,
-        precio: item.finalPrice
-      })),
+      idUsuario: idLimpio,
+      fecha: new Date().toLocaleString("es-MX", { timeZone: "America/Mexico_City" }),
+      articulos: items,
       total: total
     };
 
     pedidos.push(nuevoPedido);
+    fs.writeFileSync(pedidosPath, JSON.stringify(pedidos, null, 2));
 
-    // 5. GUARDAR EN EL SERVIDOR
-    fs.writeFileSync(filePath, JSON.stringify(pedidos, null, 2));
-
+    // 4. RESPUESTA EXITOSA (Con success: true para el frontend)
     return NextResponse.json({ 
-      success: true, 
-      orderId: nuevoPedido.id 
-    });
+      success: true, // <--- Crucial para que page.js muestre el éxito
+      message: '¡Pedido realizado con éxito!',
+      pedidoId: pedidos.length 
+    }, { status: 200 });
 
   } catch (error) {
-    console.error("Error en el servidor:", error);
-    return NextResponse.json(
-      { success: false, message: 'Error interno del servidor.' },
-      { status: 500 }
-    );
+    console.error("Error crítico:", error);
+    return NextResponse.json({ success: false, message: 'Error interno' }, { status: 500 });
   }
 }

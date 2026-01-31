@@ -3,8 +3,6 @@ import React, { useState, useMemo } from 'react';
 import { X, Box, Palette, ShoppingCart, Trash2, Ruler, Search, CheckCircle2, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// --- MOCK DE BASE DE DATOS DE IDS ---
-const DATABASE_IDS = ["FI-2026-001", "FI-2026-002", "UNAM-123", "ADMIN-01"];
 
 // Configuraciones de precios
 const PRECIOS_ESTANDAR = { S: 35, M: 40, L: 50 };
@@ -118,7 +116,7 @@ const handleFinalize = async () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: userId.trim(),
+          id: userId.trim(),
           items: cart,
           total: cartTotal,
         })
@@ -152,16 +150,31 @@ const handleFinalize = async () => {
   return (
     <div className="min-h-screen bg-white text-black font-sans p-6 md:p-8">
       {/* HEADER */}
-      <header className="max-w-6xl mx-auto mb-8 border-b-2 border-black pb-6 flex justify-between items-end">
-        <div>
-          <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tighter italic leading-none">Aistesis</h1>
-          <p className="mt-1 text-xs text-gray-500 font-bold uppercase tracking-widest">Catálogo</p>
-        </div>
-        <button onClick={() => {setIsCartOpen(true); setIsCheckout(false);}} className="relative p-2 border-2 border-black hover:bg-black hover:text-white transition-colors cursor-pointer">
-          <ShoppingCart size={20} />
-          {cart.length > 0 && <span className="absolute -top-3 -right-3 bg-black text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">{cart.length}</span>}
-        </button>
-      </header>
+      {/* HEADER */}
+<header className="max-w-6xl mx-auto mb-8 border-b-2 border-black pb-6 flex justify-between items-end">
+  <div className="flex items-center gap-4">
+    {/* TU LOGO */}
+    <img 
+      src="/logo.png" 
+      alt="Aistesis Logo" 
+      className="h-12 w-auto object-contain rounded-2xl" 
+    />
+    
+    <div>
+      <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tighter italic leading-none">
+        Aistesis
+      </h1>
+      <p className="mt-1 text-[8px] text-gray-500 font-bold uppercase tracking-widest">
+        Catálogo
+      </p>
+    </div>
+  </div>
+  
+  <button onClick={() => {setIsCartOpen(true); setIsCheckout(false);}} className="relative p-2 border-2 border-black hover:bg-black hover:text-white transition-colors cursor-pointer">
+    <ShoppingCart size={20} />
+    {cart.length > 0 && <span className="absolute -top-3 -right-3 bg-black text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">{cart.length}</span>}
+  </button>
+</header>
 
       {/* NAVEGACIÓN */}
       <div className="max-w-6xl mx-auto mb-10 space-y-4">
