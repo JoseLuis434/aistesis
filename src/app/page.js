@@ -216,7 +216,7 @@ export default function CatalogPage() {
 
                   {/* SELECTOR COLOR (SIN SOMBRA) */}
                   <div className="space-y-2">
-                    <span className="text-[9px] font-black uppercase flex items-center gap-2"><Palette size={10} /> Color</span>
+                    <span className="text-[9px] font-black uppercase flex items-center gap-2"><Palette size={10} /> Color (sin vista previa)</span>
                     <div className="grid grid-cols-3 gap-2">
                       {['Blanco', 'Mármol', 'Negro'].map(c => (
                         <button key={c} onClick={() => setConfig({ ...config, color: c })} className={`py-2 md:py-3 border-2 border-black text-[9px] font-black uppercase cursor-pointer transition-all ${config.color === c ? 'bg-black text-white' : 'opacity-40 hover:opacity-100'}`}>{c}</button>
