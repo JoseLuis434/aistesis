@@ -320,7 +320,7 @@ const handleFinalize = async () => {
                             type="text" 
                             value={userId}
                             onChange={(e) => {setUserId(e.target.value); setOrderStatus('idle');}}
-                            placeholder="EJ: FI-2026-001"
+                            placeholder="EJ: JOSE4021"
                             className={`w-full bg-white border-2 p-3 font-black uppercase text-xs focus:bg-gray-50 outline-none transition-colors ${orderStatus === 'error' ? 'border-red-500' : 'border-black'}`}
                           />
                           {orderStatus === 'error' && (
